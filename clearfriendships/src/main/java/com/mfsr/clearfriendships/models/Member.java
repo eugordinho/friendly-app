@@ -2,21 +2,22 @@ package com.mfsr.clearfriendships.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name, email, password, cbu;
     @OneToMany(mappedBy = "owner")
-    private List<Group> groups;
+    private List<FriendGroup> friendGroups;
     @OneToMany(mappedBy = "member")
-    private List<Membership> groupMemberships;
+    private List<Membership> groupMemberships = new ArrayList<>();
 
-    public User() {}
-    public User(String name, String email, String password, String cbu) {
+    public Member() {}
+    public Member(String name, String email, String password, String cbu) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -63,13 +64,29 @@ public class User {
         this.password = password;
     }
 
+    public List<FriendGroup> getGroups() {
+        return friendGroups;
+    }
+    public void addGroup(FriendGroup friendGroup) {
+        this.friendGroups.add(friendGroup);
+    }
+    public List<Membership> getGroupMemberships() {
+        return groupMemberships;
+    }
+    public void addGroupMembership(Membership membership) {
+        this.groupMemberships.add(membership);
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "Member{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", cbu='" + cbu + '\'' +
+                ", friendGroups=" + friendGroups +
+                ", groupMemberships=" + groupMemberships +
                 '}';
     }
 }
