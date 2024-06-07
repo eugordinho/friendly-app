@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GroupHeader from "../components/GroupHeader";
 import GroupView from "../components/GroupView";
 import GroupExpenses from "../components/GroupExpenses";
+import GroupMembers from "../components/GroupMembers";
 
 const GROUP_DEMO = {
   name: "GRUPO 1",
@@ -37,11 +38,25 @@ const GROUP_DEMO = {
 function Group() {
   const [view, setView] = useState("expenses");
 
+  var totalSpent = GROUP_DEMO.expenses.reduce(
+    (acc, cur) => acc + cur.quantity,
+    0
+  );
+
+  var totalMembers = GROUP_DEMO.members.length;
+
   return (
     <div>
       <GroupHeader name={GROUP_DEMO.name} img={GROUP_DEMO.img} />
       <GroupView setView={setView} />
-      {view === "expenses" && <GroupExpenses />}
+      {view === "expenses" && <GroupExpenses expenses={GROUP_DEMO.expenses} />}
+      {view === "members" && (
+        <GroupMembers
+          totalMembers={totalMembers}
+          totalSpent={totalSpent}
+          members={GROUP_DEMO.members}
+        />
+      )}
     </div>
   );
 }
